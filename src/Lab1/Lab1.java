@@ -12,12 +12,16 @@ import java.io.InputStreamReader;
 public class Lab1 {
 
     static double a, b, c, e, g;
-    static int n;
+    static int n, i;
 
     public static void main(String[] args) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        System.out.print("Введите левую границу отрезка - a: ");
         try {
+            System.out.println("Выберите уравнение для уточнения\n" +
+                    "1) x^3 + 0,1*x^2 + 0,4x - 1,2 = 0\n" +
+                    "2) ctg(x) - x/4 = 0");
+            i = Integer.parseInt(reader.readLine());
+            System.out.print("Введите левую границу отрезка - a: ");
             a = Double.parseDouble(reader.readLine());
             System.out.print("Введите правую границу отрезка - b: ");
             b = Double.parseDouble(reader.readLine());
@@ -28,9 +32,20 @@ public class Lab1 {
             do {
                 n++;
                 g = c;
-                c = (a * fun(b) - b * fun(a)) / (fun(b) - fun(a));
-                if (fun(a) * fun(c) < 0) b = c;
-                else a = c;
+                switch (i) {
+                    case 1:
+                        c = (a * fun(b) - b * fun(a)) / (fun(b) - fun(a));
+                        if (fun(a) * fun(c) < 0) b = c;
+                        else a = c;
+                        break;
+                    case 2:
+                        c = (a * fun2(b) - b * fun2(a)) / (fun2(b) - fun2(a));
+                        if (fun2(a) * fun2(c) < 0) b = c;
+                        else a = c;
+                        break;
+                }
+//                c = (a * fun(b) - b * fun(a)) / (fun(b) - fun(a));
+
                 System.out.println("Текущее значение: " + c);
             }
             while (Math.abs(g - c) > e);
@@ -42,7 +57,10 @@ public class Lab1 {
     }
 
     private static double fun(double x) {
-//        return (Math.pow(x, 3) + (0.1 * Math.pow(x, 2)) + (0.4 * x)) - 1.2;
+        return (Math.pow(x, 3) + (0.1 * Math.pow(x, 2)) + (0.4 * x)) - 1.2;
+    }
+
+    private static double fun2(double x) {
         return 1 / Math.tan(x) - x / 4;
     }
 }
